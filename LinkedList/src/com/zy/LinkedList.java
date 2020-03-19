@@ -11,12 +11,9 @@ public class LinkedList<E> implements List<E> {
     // ===============================
     /*
         重点:
-                实际上,动态数组ArrayList和链表LinkedList有很多方法都是一样的,
-            这时候可以为它们抽取一个父类List,父类中定义这些公共的方法;但是又
-            发现,它们对这些方法的实现都不相同;所以抽取父类也就没有任何意义;
-                此时,可以抽取一个接口,来定义这些方法,让它们来实现接口,重写接口
-            方法;
-                定义接口后,面向接口编程!
+            可以发现有些方法的实现是和ArrayList相同的,可以将这些
+            公共的抽取出来;
+
      */
     // ===============================
 
@@ -29,6 +26,11 @@ public class LinkedList<E> implements List<E> {
      * 指向第一个结点
      */
     private Node<E> first;
+
+    /**
+     * 找不到元素返回-1
+     */
+    private static final int ELEMENT_NOT_FOUNT = -1;
 
     /**
      * 结点类;为链表的内部类
@@ -52,27 +54,26 @@ public class LinkedList<E> implements List<E> {
 
     @Override
     public void clear() {
-
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public boolean inEmpty() {
-        return false;
+        return size == 0;
     }
 
     @Override
     public boolean contains(E element) {
-        return false;
+        return indexOf(element) != ELEMENT_NOT_FOUNT;
     }
 
     @Override
     public void add(E element) {
-
+        add(size, element);
     }
 
     @Override
@@ -105,5 +106,34 @@ public class LinkedList<E> implements List<E> {
         return 0;
     }
 
+    /**
+     * 封装数组越界异常
+     *
+     * @param index
+     */
+    private void indexOutOfBounds(int index) {
+        throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
+    }
 
+    /**
+     * 检查get,remove传入的index是否有效
+     *
+     * @param index
+     */
+    private void rangeCheck(int index) {
+        if (index < 0 || index >= size) {
+            indexOutOfBounds(index);
+        }
+    }
+
+    /**
+     * 根据index插入元素时,判断index是否有效
+     *
+     * @param index
+     */
+    private void rangeCheckForAdd(int index) {
+        if (index < 0 || index > size) {
+            indexOutOfBounds(index);
+        }
+    }
 }
