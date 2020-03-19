@@ -7,11 +7,7 @@ package com.zy;
  * @author zygui
  * @date 2020/3/15 19:39
  */
-public class ArrayList<E> implements List<E>{
-    /**
-     * 元素的数量
-     */
-    private int size;
+public class ArrayList<E> extends AbstractList<E> {
 
     /**
      * 所有元素
@@ -22,11 +18,6 @@ public class ArrayList<E> implements List<E>{
      * 数组的默认容量
      */
     private static final int DEFAULT_CAPACITY = 10;
-
-    /**
-     * 找不到元素返回-1
-     */
-    private static final int ELEMENT_NOT_FOUNT = -1;
 
     public ArrayList() {
         // 默认容量
@@ -50,46 +41,6 @@ public class ArrayList<E> implements List<E>{
             elements[i] = null;
         }
         size = 0;
-    }
-
-    /**
-     * 元素的数量
-     *
-     * @return
-     */
-    public int size() {
-        return size;
-    }
-
-    /**
-     * 是否为空
-     *
-     * @return
-     */
-    public boolean inEmpty() {
-        return size == 0;
-    }
-
-    /**
-     * 是否包含某个元素
-     *
-     * @param element
-     * @return
-     */
-    public boolean contains(E element) {
-        // 如果element元素可以找到
-        return indexOf(element) != ELEMENT_NOT_FOUNT;
-    }
-
-    /**
-     * 添加元素到尾部
-     *
-     * @param element
-     */
-    public void add(E element) {
-        // elements[size++] = element;
-        // 传入数组数量(相当于在最后插入元素)
-        add(size, element);
     }
 
     /**
@@ -166,9 +117,10 @@ public class ArrayList<E> implements List<E>{
 
     /**
      * 删除传入的元素
+     *
      * @param element
      */
-    public void remove(E element){
+    public void remove(E element) {
         remove(indexOf(element));
     }
 
@@ -221,36 +173,6 @@ public class ArrayList<E> implements List<E>{
         System.out.println(oldCapacity + "扩容为:" + newCapacity);
     }
 
-    /**
-     * 封装数组越界异常
-     *
-     * @param index
-     */
-    private void indexOutOfBounds(int index) {
-        throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
-    }
-
-    /**
-     * 检查get,remove传入的index是否有效
-     *
-     * @param index
-     */
-    private void rangeCheck(int index) {
-        if (index < 0 || index >= size) {
-            indexOutOfBounds(index);
-        }
-    }
-
-    /**
-     * 根据index插入元素时,判断index是否有效
-     *
-     * @param index
-     */
-    private void rangeCheckForAdd(int index) {
-        if (index < 0 || index > size) {
-            indexOutOfBounds(index);
-        }
-    }
 
     @Override
     public String toString() {

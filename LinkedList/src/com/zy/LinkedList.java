@@ -6,31 +6,31 @@ package com.zy;
  * @author zygui
  * @date 2020/3/19 21:22
  */
-public class LinkedList<E> implements List<E> {
+public class LinkedList<E> extends AbstractList<E> {
 
     // ===============================
     /*
         重点:
-            可以发现有些方法的实现是和ArrayList相同的,可以将这些
-            公共的抽取出来;
+            重构了代码;
+            1、通过抽取了一个接口List,可以解决ArrayList和LinkedList公共方法的问题,
+                让两者都实现List接口,实现接口中的方法;
 
+            2、但是通过在ArrayList和LinkedList中的重写接口方法,发现有部分方法实现相同;
+                所以又抽取了AbstractList抽象类,这个类是用来存储两者共同方法(重写接口后的部分方法)的实现;
+                也包括一些其他的相同方法(非接口方法)
+
+            3、这样以来,我们将ArrayList和LinkedList都继承该抽象类,就可以使用抽象父类中的方法了;
+                但是这样的话,它们首先是继承了抽象类,又实现了List接口;我们可以将抽象类来实现
+                接口,它们只需要继承抽象类就可以了. 此时,抽象类也只是实现了List接口中的部分
+                方法(两者的公共方法实现),ArrayList和LinkedList只需要实现其他的接口方法即可!
      */
     // ===============================
-
-    /**
-     * 元素(结点)的数量
-     */
-    private int size;
 
     /**
      * 指向第一个结点
      */
     private Node<E> first;
 
-    /**
-     * 找不到元素返回-1
-     */
-    private static final int ELEMENT_NOT_FOUNT = -1;
 
     /**
      * 结点类;为链表的内部类
@@ -54,26 +54,6 @@ public class LinkedList<E> implements List<E> {
 
     @Override
     public void clear() {
-    }
-
-    @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public boolean inEmpty() {
-        return size == 0;
-    }
-
-    @Override
-    public boolean contains(E element) {
-        return indexOf(element) != ELEMENT_NOT_FOUNT;
-    }
-
-    @Override
-    public void add(E element) {
-        add(size, element);
     }
 
     @Override
@@ -106,34 +86,4 @@ public class LinkedList<E> implements List<E> {
         return 0;
     }
 
-    /**
-     * 封装数组越界异常
-     *
-     * @param index
-     */
-    private void indexOutOfBounds(int index) {
-        throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
-    }
-
-    /**
-     * 检查get,remove传入的index是否有效
-     *
-     * @param index
-     */
-    private void rangeCheck(int index) {
-        if (index < 0 || index >= size) {
-            indexOutOfBounds(index);
-        }
-    }
-
-    /**
-     * 根据index插入元素时,判断index是否有效
-     *
-     * @param index
-     */
-    private void rangeCheckForAdd(int index) {
-        if (index < 0 || index > size) {
-            indexOutOfBounds(index);
-        }
-    }
 }

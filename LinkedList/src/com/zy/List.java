@@ -7,6 +7,13 @@ package com.zy;
  * @date 2020/3/19 21:50
  */
 public interface List<E> {
+
+    /**
+     * 找不到元素返回-1
+     */
+    // 默认就是 public static final修饰
+    int ELEMENT_NOT_FOUNT = -1;
+
     /**
      * 清除所有元素
      */
