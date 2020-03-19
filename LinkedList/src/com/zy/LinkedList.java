@@ -11,18 +11,13 @@ public class LinkedList<E> extends AbstractList<E> {
     // ===============================
     /*
         重点:
-            重构了代码;
-            1、通过抽取了一个接口List,可以解决ArrayList和LinkedList公共方法的问题,
-                让两者都实现List接口,实现接口中的方法;
+            1、clear方法,size=0; first=null时,链表指向的第一个Node就为null,后面的
+                所有结点没有引用了就会被释放,所以后面的结点都会被释放
 
-            2、但是通过在ArrayList和LinkedList中的重写接口方法,发现有部分方法实现相同;
-                所以又抽取了AbstractList抽象类,这个类是用来存储两者共同方法(重写接口后的部分方法)的实现;
-                也包括一些其他的相同方法(非接口方法)
+            2、设计一个方法,传入一个index,返回该index的结点,通过first去寻找结点,看需要next几次,找到该结点;
+                可以发现,next的次数和index有关系,index为几,就需要next几次
 
-            3、这样以来,我们将ArrayList和LinkedList都继承该抽象类,就可以使用抽象父类中的方法了;
-                但是这样的话,它们首先是继承了抽象类,又实现了List接口;我们可以将抽象类来实现
-                接口,它们只需要继承抽象类就可以了. 此时,抽象类也只是实现了List接口中的部分
-                方法(两者的公共方法实现),ArrayList和LinkedList只需要实现其他的接口方法即可!
+            3、完成 get、set方法
      */
     // ===============================
 
@@ -54,16 +49,24 @@ public class LinkedList<E> extends AbstractList<E> {
 
     @Override
     public void clear() {
+        size = 0;
+        first = null;
     }
 
     @Override
     public E get(int index) {
-        return null;
+        // 通过node方法找到结点,通过结点的element来获取元素
+        return node(index).element;
     }
 
     @Override
     public E set(int index, E element) {
-        return null;
+        // 获取index处的结点
+        Node<E> node = node(index);
+        E oldElement = node.element;
+        node.element = element;
+        // 返回的是没覆盖之前的结点元素信息
+        return oldElement;
     }
 
     @Override
@@ -86,4 +89,20 @@ public class LinkedList<E> extends AbstractList<E> {
         return 0;
     }
 
+    /**
+     * 传入一个index,返回该index位置的结点对象
+     * @param index
+     * @return
+     */
+    private Node<E> node(int index){
+        /*
+            通过first去寻找结点,看需要next几次,找到该结点;
+            可以发现,next的次数和index有关系,index为几,就需要next几次
+         */
+        Node<E> node = first;
+        for (int i = 0; i < index; i++) {
+            node = node.next;
+        }
+        return node;
+    }
 }

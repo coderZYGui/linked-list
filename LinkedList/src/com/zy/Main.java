@@ -9,6 +9,10 @@ package com.zy;
 public class Main {
     public static void main(String[] args) {
         List<Integer> list1 = new ArrayList<>();
-        List<Integer> list2 = new LinkedList<>();
+        for (int i = 0; i < 20; i++) {
+            list1.add(i);
+        }
+
+        System.out.println(list1);
     }
 }
