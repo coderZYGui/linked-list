@@ -11,13 +11,8 @@ public class LinkedList<E> extends AbstractList<E> {
     // ===============================
     /*
         重点:
-            1、clear方法,size=0; first=null时,链表指向的第一个Node就为null,后面的
-                所有结点没有引用了就会被释放,所以后面的结点都会被释放
+            1、完成add方法, remove方法, indexOf方法;
 
-            2、设计一个方法,传入一个index,返回该index的结点,通过first去寻找结点,看需要next几次,找到该结点;
-                可以发现,next的次数和index有关系,index为几,就需要next几次
-
-            3、完成 get、set方法
      */
     // ===============================
 
