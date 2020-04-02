@@ -1,4 +1,6 @@
-package com.zy;
+package com.zy.doubles;
+
+import com.zy.AbstractList;
 
 /**
  * Description: 双向链表实现
@@ -6,7 +8,7 @@ package com.zy;
  * @author zygui
  * @date 2020/3/19 21:22
  */
-public class LinkedList<E> extends AbstractList<E> {
+public class DoubleLinkedList<E> extends AbstractList<E> {
 
     /**
      * 指向第一个结点

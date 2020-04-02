@@ -8,8 +8,10 @@ package com.zy;
  */
 public class Main {
     public static void main(String[] args) {
-        testList(new ArrayList<>());
-        testList(new LinkedList<>());
+        // testList(new ArrayList<>());
+        // testList(new DoubleLinkedList<>());
+
+        testList(new SingleCircleLinkedList<>());
     }
 
     static void testList(List<Integer> list){

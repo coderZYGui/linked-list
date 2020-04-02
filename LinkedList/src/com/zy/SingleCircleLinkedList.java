@@ -1,22 +1,16 @@
-package com.zy.simple;
-
-import com.zy.AbstractList;
+package com.zy;
 
 /**
- * Description: 链表实现
+ * Description: 单向循环链表实现
  *
  * @author zygui
  * @date 2020/3/19 21:22
  */
-public class SimpleLinkedList<E> extends AbstractList<E> {
+public class SingleCircleLinkedList<E> extends AbstractList<E> {
 
-    // ===============================
     /*
-        重点:
-            1、完成add方法, remove方法, indexOf方法;
-
+        单向循环链表, 相对于单链表; 我们只需要更高 add、remove方法即可!
      */
-    // ===============================
 
     /**
      * 指向第一个结点
@@ -41,6 +35,13 @@ public class SimpleLinkedList<E> extends AbstractList<E> {
         public Node(E element, Node<E> next) {
             this.element = element;
             this.next = next;
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append(element).append("_").append(next.element);
+            return sb.toString();
         }
     }
 
@@ -68,10 +69,18 @@ public class SimpleLinkedList<E> extends AbstractList<E> {
 
     @Override
     public void add(int index, E element) {
+        rangeCheckForAdd(index);
 
         // 当index传0的时候,就会报异常,此时要特殊处理
         if (index == 0) {
-            first = new Node<>(element, first);
+            Node<E> newFirst = new Node<>(element, first);
+
+            // 拿到最后一个结点; 判断只有一个结点的情况
+            Node<E> last = (size == 0) ? newFirst : node(size - 1);
+            // 最后一个结点的next指向头结点
+            last.next = newFirst;
+            first = newFirst;
+
         } else {
             // 在index处插入元素,首先要找到它前面的结点
             Node<E> preNode = node(index - 1);
@@ -92,8 +101,14 @@ public class SimpleLinkedList<E> extends AbstractList<E> {
         // 假如被删除的结点为第一个结点
         Node<E> node = first;
         if (index == 0) {
-            // first已经指向了第一个结点,如果要删除第一个结点,此时要将first指向第一个结点的next结点
-            first = first.next;
+            if (size == 1) { // 链表中只有一个元素的时候
+                first = null;
+            } else {
+                Node<E> last = node(size - 1);
+                // first已经指向了第一个结点,如果要删除第一个结点,此时要将first指向第一个结点的next结点
+                first = first.next;
+                last.next = first; // 最后一个结点指向新的第一个结点
+            }
         } else {
             Node<E> preNode = node(index - 1);
             node = preNode.next; // 这个node就是当前被删除的结点
@@ -115,14 +130,14 @@ public class SimpleLinkedList<E> extends AbstractList<E> {
      */
     public int indexOf(E element) {
         Node<E> node = first;
-        if (element == null){
+        if (element == null) {
             // 因为element都在node中,所以通过next来遍历node
-            for (int i = 0; i < size; i++){
+            for (int i = 0; i < size; i++) {
                 if (node.element == null) return i;
                 node = node.next;
             }
         } else {
-            for (int i = 0; i < size; i++){
+            for (int i = 0; i < size; i++) {
                 if (element.equals(node.element)) return i;
                 node = node.next;
             }
@@ -158,7 +173,7 @@ public class SimpleLinkedList<E> extends AbstractList<E> {
         string.append("size=").append(size).append(", [");
         Node<E> node = first;
         for (int i = 0; i < size; i++) {
-            string.append(node.element);
+            string.append(node.toString());
             if (i != size - 1) {
                 string.append(", ");
             }
