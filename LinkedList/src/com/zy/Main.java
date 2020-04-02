@@ -1,5 +1,7 @@
 package com.zy;
 
+import com.zy.simple.SimpleLinkedList;
+
 /**
  * Description:
  *
@@ -8,7 +10,7 @@ package com.zy;
  */
 public class Main {
     public static void main(String[] args) {
-        List<Integer> list = new LinkedList<>();
+        List<Integer> list = new SimpleLinkedList<>();
         list.add(10);
         list.add(0, 20);
         list.add(list.size(), 30);

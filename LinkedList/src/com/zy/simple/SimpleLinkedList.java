@@ -1,22 +1,27 @@
-package com.zy;
+package com.zy.simple;
+
+import com.zy.AbstractList;
 
 /**
- * Description: 双向链表实现
+ * Description: 链表实现
  *
  * @author zygui
  * @date 2020/3/19 21:22
  */
-public class LinkedList<E> extends AbstractList<E> {
+public class SimpleLinkedList<E> extends AbstractList<E> {
+
+    // ===============================
+    /*
+        重点:
+            1、完成add方法, remove方法, indexOf方法;
+
+     */
+    // ===============================
 
     /**
      * 指向第一个结点
      */
     private Node<E> first;
-
-    /**
-     * 指向最后一个结点
-     */
-    private Node<E> last;
 
 
     /**
@@ -32,12 +37,8 @@ public class LinkedList<E> extends AbstractList<E> {
         //指向下一个结点
         Node<E> next;
 
-        // 指向上一个结点
-        Node<E> prev;
-
         // 结点构造器
-        public Node(Node<E> prev, E element, Node<E> next) {
-            this.prev = prev;
+        public Node(E element, Node<E> next) {
             this.element = element;
             this.next = next;
         }
@@ -47,7 +48,6 @@ public class LinkedList<E> extends AbstractList<E> {
     public void clear() {
         size = 0;
         first = null;
-        last = null;
     }
 
     @Override
@@ -68,15 +68,19 @@ public class LinkedList<E> extends AbstractList<E> {
 
     @Override
     public void add(int index, E element) {
-        // 获取当前要插入位置的结点
-        Node<E> next = node(index);
-        // 其上一个结点
-        Node<E> prev = next.prev;
-        // 创建一个新的结点(这个新结点的指向已经初始化好了)
-        Node<E> node = new Node<>(prev, element, next);
-        next.prev = node;
-        prev.next = node;
 
+        // 当index传0的时候,就会报异常,此时要特殊处理
+        if (index == 0) {
+            first = new Node<>(element, first);
+        } else {
+            // 在index处插入元素,首先要找到它前面的结点
+            Node<E> preNode = node(index - 1);
+            // 让前面的结点的next指向新创建的结点,新创建的结点指向index处的结点即可
+            // 此时index处的结点,就是它前面的结点的next,就是指向index处的结点
+            Node<E> newNode = new Node<>(element, preNode.next);
+            // 前面的结点的next再指向新的结点
+            preNode.next = newNode;
+        }
         size++;
     }
 
@@ -111,14 +115,14 @@ public class LinkedList<E> extends AbstractList<E> {
      */
     public int indexOf(E element) {
         Node<E> node = first;
-        if (element == null) {
+        if (element == null){
             // 因为element都在node中,所以通过next来遍历node
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++){
                 if (node.element == null) return i;
                 node = node.next;
             }
         } else {
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++){
                 if (element.equals(node.element)) return i;
                 node = node.next;
             }
@@ -135,27 +139,15 @@ public class LinkedList<E> extends AbstractList<E> {
     private Node<E> node(int index) {
         // 当传入非法index就会报异常
         rangeCheck(index);
-
-        if (index < (size >> 1)) {
-            /*
+        /*
             通过first去寻找结点,看需要next几次,找到该结点;
             可以发现,next的次数和index有关系,index为几,就需要next几次
-            */
-            Node<E> node = first;
-            for (int i = 0; i < index; i++) {
-                node = node.next;
-            }
-            return node;
-        } else {
-            /*
-             从后往前找, 因为是双向链表;
-             */
-            Node<E> node = last;
-            for (int i = size - 1; i > index; i--){
-                node = node.prev;
-            }
-            return node;
+         */
+        Node<E> node = first;
+        for (int i = 0; i < index; i++) {
+            node = node.next;
         }
+        return node;
     }
 
     @Override
