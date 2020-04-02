@@ -1,4 +1,6 @@
-package com.zy;
+package com.zy.single;
+
+import com.zy.AbstractList;
 
 /**
  * Description: 单向循环链表实现

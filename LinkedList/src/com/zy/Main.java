@@ -10,8 +10,8 @@ public class Main {
     public static void main(String[] args) {
         // testList(new ArrayList<>());
         // testList(new DoubleLinkedList<>());
-
-        testList(new SingleCircleLinkedList<>());
+        // testList(new SingleCircleLinkedList<>());
+        testList(new DoubleCircleLinkedList<>());
     }
 
     static void testList(List<Integer> list){
