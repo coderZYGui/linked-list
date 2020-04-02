@@ -68,15 +68,31 @@ public class LinkedList<E> extends AbstractList<E> {
 
     @Override
     public void add(int index, E element) {
-        // 获取当前要插入位置的结点
-        Node<E> next = node(index);
-        // 其上一个结点
-        Node<E> prev = next.prev;
-        // 创建一个新的结点(这个新结点的指向已经初始化好了)
-        Node<E> node = new Node<>(prev, element, next);
-        next.prev = node;
-        prev.next = node;
 
+        if (index == size) {    // 往最后添加元素
+            Node<E> oldLast = last; // 之前的最后一个结点
+            last = new Node<E>(oldLast, element, null);
+            if (oldLast == null) {  // 这是链表添加的第一个元素
+                // 此时链表的first,last都指向新结点
+                first = last;
+            } else {
+                // 再将原来的last指向现在的last
+                oldLast.next = last;
+            }
+        } else {
+            // 获取当前要插入位置的结点
+            Node<E> next = node(index);
+            // 其上一个结点
+            Node<E> prev = next.prev;
+            // 创建一个新的结点(这个新结点的指向已经初始化好了)
+            Node<E> node = new Node<>(prev, element, next);
+            next.prev = node;
+            if (prev == null) { // index == 0
+                // 也就是插入到第一个结点的位置
+                first = node;
+            }
+            prev.next = node;
+        }
         size++;
     }
 
@@ -151,7 +167,7 @@ public class LinkedList<E> extends AbstractList<E> {
              从后往前找, 因为是双向链表;
              */
             Node<E> node = last;
-            for (int i = size - 1; i > index; i--){
+            for (int i = size - 1; i > index; i--) {
                 node = node.prev;
             }
             return node;
