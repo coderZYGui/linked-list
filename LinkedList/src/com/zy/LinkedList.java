@@ -101,17 +101,24 @@ public class LinkedList<E> extends AbstractList<E> {
      * 返回的是被删除元素的element
      */
     public E remove(int index) {
-        // 假如被删除的结点为第一个结点
-        Node<E> node = first;
-        if (index == 0) {
-            // first已经指向了第一个结点,如果要删除第一个结点,此时要将first指向第一个结点的next结点
-            first = first.next;
+        rangeCheck(index);
+
+        Node<E> node = node(index);
+        Node<E> prev = node.prev;
+        Node<E> next = node.next;
+
+        if (prev == null) { // index == 0
+           first = next;
         } else {
-            Node<E> preNode = node(index - 1);
-            node = preNode.next; // 这个node就是当前被删除的结点
-            //preNode.next = preNode.next.next;
-            preNode.next = node.next;
+            next.prev = prev;
         }
+
+        if (next == null) { // index == size - 1
+            last = prev;
+        } else {
+            next.prev = prev;
+        }
+
         size--;
         return node.element;
     }
