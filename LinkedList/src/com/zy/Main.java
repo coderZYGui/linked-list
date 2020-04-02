@@ -1,7 +1,5 @@
 package com.zy;
 
-import com.zy.simple.SimpleLinkedList;
-
 /**
  * Description:
  *
@@ -10,22 +8,31 @@ import com.zy.simple.SimpleLinkedList;
  */
 public class Main {
     public static void main(String[] args) {
-        List<Integer> list = new SimpleLinkedList<>();
-        list.add(10);
-        list.add(0, 20);
-        list.add(list.size(), 30);
-        list.add(null);
-        Integer remEle = list.remove(1);
-        System.out.println("移除的元素:" + remEle);
+        testList(new ArrayList<>());
+        testList(new LinkedList<>());
+    }
 
-        // list.clear();
-        // list.remove(Integer.valueOf(30));
-        Integer oldEle = list.set(0, 100);
-        System.out.println("原来的元素: " + oldEle);
+    static void testList(List<Integer> list){
+        list.add(11);
+        list.add(22);
+        list.add(33);
+        list.add(44);
 
-        int i = list.indexOf(null);
-        System.out.println("null的位置:" + i);
+        list.add(0, 55); // [55, 11, 22, 33, 44]
+        list.add(2, 66); // [55, 11, 66, 22, 33, 44]
+        list.add(list.size(), 77); // [55, 11, 66, 22, 33, 44, 77]
 
-        System.out.println(list); // [100, 30, null]
+        list.remove(0); // [11, 66, 22, 33, 44, 77]
+        list.remove(2); // [11, 66, 33, 44, 77]
+        list.remove(list.size() - 1); // [11, 66, 33, 44]
+
+        System.out.println(list);
+
+        AssertUtil.test(list.indexOf(44) == 3);
+        AssertUtil.test(list.indexOf(22) == List.ELEMENT_NOT_FOUNT);
+        AssertUtil.test(list.contains(33));
+        AssertUtil.test(list.get(0) == 11);
+        AssertUtil.test(list.get(1) == 66);
+        AssertUtil.test(list.get(list.size() - 1) == 44);
     }
 }

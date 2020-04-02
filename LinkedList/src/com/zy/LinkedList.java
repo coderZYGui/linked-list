@@ -41,6 +41,21 @@ public class LinkedList<E> extends AbstractList<E> {
             this.element = element;
             this.next = next;
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            if (prev != null) {
+                sb.append(prev.element);
+            }
+            sb.append("_").append(element).append("_");
+            if (next != null) {
+                sb.append(next.element);
+            } else {
+                sb.append("null");
+            }
+            return sb.toString();
+        }
     }
 
     @Override
@@ -69,6 +84,8 @@ public class LinkedList<E> extends AbstractList<E> {
     @Override
     public void add(int index, E element) {
 
+        rangeCheckForAdd(index);
+
         if (index == size) {    // 往最后添加元素
             Node<E> oldLast = last; // 之前的最后一个结点
             last = new Node<E>(oldLast, element, null);
@@ -90,8 +107,9 @@ public class LinkedList<E> extends AbstractList<E> {
             if (prev == null) { // index == 0
                 // 也就是插入到第一个结点的位置
                 first = node;
+            } else {
+                prev.next = node;
             }
-            prev.next = node;
         }
         size++;
     }
@@ -108,9 +126,9 @@ public class LinkedList<E> extends AbstractList<E> {
         Node<E> next = node.next;
 
         if (prev == null) { // index == 0
-           first = next;
+            first = next;
         } else {
-            next.prev = prev;
+            prev.next = next;
         }
 
         if (next == null) { // index == size - 1
@@ -189,7 +207,7 @@ public class LinkedList<E> extends AbstractList<E> {
         string.append("size=").append(size).append(", [");
         Node<E> node = first;
         for (int i = 0; i < size; i++) {
-            string.append(node.element);
+            string.append(node.toString());
             if (i != size - 1) {
                 string.append(", ");
             }
