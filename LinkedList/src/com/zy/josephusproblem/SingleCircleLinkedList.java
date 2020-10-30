@@ -1,4 +1,4 @@
-package com.zy.josephus;
+package com.zy.josephusproblem;
 
 import com.zy.AbstractList;
 
@@ -63,15 +63,33 @@ public class SingleCircleLinkedList<E> extends AbstractList<E> {
      * @return
      */
     public E next() {
-        return null;
+        if (current == null) return null;
+
+        current = current.next;
+        return current.element;
     }
 
     /**
      * 删除current指向的节点, 删除成功后, 指向下一个节点
-     * @return
+     * @return 被删除节点的element
      */
     public E remove() {
-        return null;
+        // 当current没有指向first的时候, 初始化为null
+        if (current == null) return null;
+
+        // 删除之前要拿到其下一个节点; 如果只有一个节点的时候, current.next还是current本身
+        Node<E> next = current.next;
+        // 删除当前current所指向的节点
+        E element = remove(indexOf(current.element));
+        // 当只有一个节点的时候, current.next指向的还是它本身(因为是循环链表), 所以current一直被引用着, 没有被销毁
+        if (size == 0) {
+            current = null;
+        } else {
+            // 如果只有一个节点了, current指向的就是它自己, 它就不会被销毁, 所以上面做处理
+            current = next; // 删除后, current指向它下一个
+        }
+        return element;
+
     }
 
     @Override

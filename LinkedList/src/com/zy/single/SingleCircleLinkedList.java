@@ -17,7 +17,7 @@ public class SingleCircleLinkedList<E> extends AbstractList<E> {
     /**
      * 指向第一个结点
      */
-    private Node<E> first;
+    protected Node<E> first;
 
 
     /**
@@ -25,7 +25,7 @@ public class SingleCircleLinkedList<E> extends AbstractList<E> {
      *
      * @param <E>
      */
-    private static class Node<E> {
+    protected static class Node<E> {
 
         //存储元素的信息
         E element;

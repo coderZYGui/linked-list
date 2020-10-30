@@ -1,5 +1,7 @@
 package com.zy;
 
+import com.zy.josephusproblem.SingleCircleLinkedList;
+
 /**
  * Description:
  *
@@ -11,9 +13,26 @@ public class Main {
         // testList(new ArrayList<>());
         // testList(new DoubleLinkedList<>());
         // testList(new SingleCircleLinkedList<>());
-        testList(new DoubleCircleLinkedList<>());
+//        testList(new DoubleCircleLinkedList<>());
+
+        testJosephusProblem();
     }
 
+    static void testJosephusProblem() {
+        SingleCircleLinkedList<Integer> linkedList = new SingleCircleLinkedList<>();
+        for (int i = 1; i <= 8; i++) {
+            linkedList.add(i);
+        }
+
+        //指向头结点
+        linkedList.reset();
+
+        while (!linkedList.inEmpty()) {
+            linkedList.next();
+            linkedList.next();
+            System.out.println(linkedList.remove());
+        }
+    }
     static void testList(List<Integer> list){
         list.add(11);
         list.add(22);
