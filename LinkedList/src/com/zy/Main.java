@@ -20,7 +20,7 @@ public class Main {
 
     static void testJosephusProblem() {
         SingleCircleLinkedList<Integer> linkedList = new SingleCircleLinkedList<>();
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 1; i <= 15; i++) {
             linkedList.add(i);
         }
 
@@ -30,7 +30,7 @@ public class Main {
         while (!linkedList.inEmpty()) {
             linkedList.next();
             linkedList.next();
-            System.out.println(linkedList.remove());
+            System.out.print(linkedList.remove() + " ");
         }
     }
     static void testList(List<Integer> list){
